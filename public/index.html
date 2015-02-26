@@ -3,22 +3,40 @@
 	<head>
 	  <title>Input Play</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js" type="text/javascript"></script>
+    <!-- This is a way of getting socketio's javascript to the client.  It is not from a cdn but straight 
+    from the node server.  At some point we will want to minify obfuscate and bundle our javascript, I don't know 
+    whether this node served one will cooperate but I'm sure there's a way.  We'll deal with that later.-->
     <script src="/socket.io/socket.io.js"></script>
   </head>
   <body>
     <h2>Playing with websockets using socketio</h2>
+    <!-- I've yet to have my status show not connected once it has been connected.
+    It's nothing special I just thought it would be nice to display an overall status.
+    -->
     <p>You are currently <span id="status">not connected</span></p>
     <ul id="server-messages">
     </ul>
     <script>
     $(document).ready(function(){
+      //this line is what asks the server to connect and share a socket with the client
       var socket = io.connect();
-      var messages = [];
-      
+
+      //I had played with only letting X messages on screen at once but I was 
+      //pressed for time, so I wrapped up the jQuery bit in this one function
+      //so I can update it later if I'ld like.  For now I blindly add the JSON 
+      //as a string for transparency.
       var addMessage = function(data){
         $("#server-messages").append("<li>"+JSON.stringify(data)+"</li>");
       };
       
+      /* 
+      The rest of the code just registers callback functions for each of the "events"
+      that I thought to expect from the server.  Like any backend work, the API contracts 
+      should be clear.  In this case a "welcome" event was fired when the client connects.
+      A "ping server" event from the client will trigger a "pong server" event from the server.
+      In all event triggering a JSON object can be sent along to include a payload of some type.
+      Very powerful but simple.
+      */
       socket.on('welcome', function (data) {
         $("#status").html("connected");
         addMessage(data);
@@ -29,17 +47,21 @@
         addMessage(data);
       });
       
+      //My server sends out a "server time" event every five seconds.
       socket.on('server time', function(data){
         addMessage(data);
       });
       
+      //These are standard events for a disconnection... I haven't seen them yet
       socket.on('disconnect', function(){
         $("#status").html("not connected");
       });
       
+      //some stackoverflow comment convinced me to include this too.
       socket.on('disconnected', function(){
         $("#status").html("not connected");
       });
+      
     });
     </script>
   </body>
