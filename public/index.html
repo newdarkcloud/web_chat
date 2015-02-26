@@ -32,6 +32,14 @@
       socket.on('server time', function(data){
         addMessage(data);
       });
+      
+      socket.on('disconnect', function(){
+        $("#status").html("not connected");
+      });
+      
+      socket.on('disconnected', function(){
+        $("#status").html("not connected");
+      });
     });
     </script>
   </body>
