@@ -4,11 +4,15 @@ This sets up a simple node server which emits and responds to events from a clie
 
 ## Node js
 
-Node is a stand-in for apache on the server.  You write a "server" script and run it, while it is running it will handle HTTP requests.
+Node is a stand-in for apache on the server.  You write a "server" script and run it, while it is running it will handle HTTP requests.  Node also comes with the wonderful node package manager *npm*.  To install the required libraries for a typical node application open your shell and run:
 
-After a while your script will probably shut down.  You can use *forever* a nice node module for keeping the server up.  Otherwise
+    npm install
+
+This will install a few things (express, socketio, async).  Normally you run the server and after a while your script will probably shut down.  You can use *forever* a nice node module for keeping the server up.  Otherwise
 
     node server.js
+
+# HTTP ports
 
 This is your first time needing to think about ports.  Normal HTTP traffic is done on port 80, SSH on port 22, e-mail has a few ports roped off, DNS gets 53.
 
