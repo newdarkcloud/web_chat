@@ -11,7 +11,7 @@ Node is a stand-in for apache on the server.  You write a "server" script and ru
 This will install a few things (express, socketio, async).  Normally you run the server and after a while your script will probably shut down.  You can use *forever* a nice node module for keeping the server up.  Otherwise
 
     node server.js
-
+//Hi!
 # HTTP ports
 
 This is your first time needing to think about ports.  Normal HTTP traffic is done on port 80, SSH on port 22, e-mail has a few ports roped off, DNS gets 53.
